@@ -28,8 +28,10 @@ def find_id_password(user):
 
 @user.route('', methods = ['GET', 'POST', 'PUT', 'DELETE'])
 class UserManagement(Resource):
-    # 1. GET : 특정한 아이디의 닉네임 가져오기
+    @user.doc(responses = {200 : "Success"})
+    @user.doc(responses = {400 : "Failed"})
     def get(self):
+        """GET : 특정한 아이디의 닉네임 가져오기"""
         # param으로 받아와서 다른 것과 문법이 좀 다름...
         id = request.args.get("id")
         pw = request.args.get("password")
@@ -60,8 +62,10 @@ class UserManagement(Resource):
         else:
             return row[0]
         
-    # 2. POST : 유저 추가하기. 단, 중복된 ID는 불허
+    @user.doc(responses = {200 : "Success"})
+    @user.doc(responses = {400 : "Failed"})
     def post(self):
+        """POST : 유저 추가하기 단, 중복된 ID는 불허"""
         try:
             user = request.get_json()
             sql = "INSERT INTO user VALUES (%s, %s, %s)"
@@ -80,8 +84,11 @@ class UserManagement(Resource):
             "message" : "유저 생성 성공"
         }
         return jsonify(result)
-    # 3. PUT : 유저 닉네임 변경하기
+    
+    @user.doc(responses = {200 : "Success"})
+    @user.doc(responses = {400 : "Failed"})
     def put(self):
+        """PUT : 유저 닉네임 변경하기"""
         user = request.get_json()
         before = find_id_password(user)
         
@@ -112,8 +119,11 @@ class UserManagement(Resource):
                     "message" : "유저 닉네임 변경 성공"
                 }
             return jsonify(result)
-    # 4. DELETE : 유저 내용 삭제하기
+        
+    @user.doc(responses = {200 : "Success"})
+    @user.doc(responses = {400 : "Failed"})   
     def delete(self):
+        """DELETE : 유저 내용 삭제하기"""
         user = request.get_json()
         before = select_all()       # 삭제 전 테이블과 삭제 후 테이블을 비교해서 다르면 삭제 성공, 같으면 삭제 실패
         
