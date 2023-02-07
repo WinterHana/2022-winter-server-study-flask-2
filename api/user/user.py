@@ -1,6 +1,6 @@
 from flask import request, jsonify
 from flask_restx import Resource, Namespace
-import pymysql, requests
+import pymysql
 from database.database import Database
 
 user = Namespace('user')
@@ -10,6 +10,7 @@ database = Database()
 def select_all():
     sql = "SELECT * FROM user"
     rows = database.execute_all(sql)
+    database.commit()
     list = []
     for row in rows:
         list.append(row)
@@ -20,6 +21,7 @@ def find_id_password(user):
     sql = "SELECT nickname FROM user WHERE id = %s AND pw = %s"
     val = (user["id"], user["password"])
     row = database.execute_all(sql, val)
+    database.commit()
     if len(row) == 0:
         return None
     else:
