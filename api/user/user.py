@@ -65,7 +65,6 @@ class UserManagement(Resource):
         sql = "SELECT nickname FROM user WHERE id = %s AND pw = %s"
         val = (id, pw)
         row = database.execute_all(sql, val)
-        print(row)
         if len(row) == 0:
             return errer_message("아이디나 비밀번호 불일치")
 
