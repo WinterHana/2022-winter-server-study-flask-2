@@ -84,7 +84,6 @@ class UserManagement(Resource):
             "is_success" : True,
             "message" : "유저 생성 성공"
         }
-        database.close()
         return jsonify(result)
     
     @user.doc(responses = {200 : "Success"})
