@@ -13,7 +13,6 @@ def select_all():
     list = []
     for row in rows:
         list.append(row)
-    print(list)
     return list    
 
 # id와 비밀번호로 찾기 / PUT
@@ -83,6 +82,7 @@ class UserManagement(Resource):
             "is_success" : True,
             "message" : "유저 생성 성공"
         }
+        database.close()
         return jsonify(result)
     
     @user.doc(responses = {200 : "Success"})
@@ -94,7 +94,7 @@ class UserManagement(Resource):
         
         sql = "UPDATE user SET nickname = %s WHERE id = %s AND pw = %s"
         val = (user["nickname"], user["id"], user["password"])
-        rows = database.execute_all(sql, val)
+        database.execute_all(sql, val)
         database.commit()
         
         after = find_id_password(user)
