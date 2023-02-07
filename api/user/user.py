@@ -32,7 +32,7 @@ class UserManagement(Resource):
     def get(self):
         # param으로 받아와서 다른 것과 문법이 좀 다름...
         id = request.args.get("id")
-        pw = request.args.get("pw")
+        pw = request.args.get("password")
         
         # 1. 아이디가 불일치할 때 : 필요없으면 지워도 무방
         sql = "SELECT * FROM user WHERE id = %s"
